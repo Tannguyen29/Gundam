@@ -1,4 +1,5 @@
 var express = require('express');
+const { Types } = require('mongoose');
 var app = express()
 
 app.set('view engine','hbs')
@@ -11,13 +12,15 @@ app.post('/edit',async (req,res)=>{
     const name = req.body.txtName
     const price = req.body.txtPrice
     const Image = req.body.Image
+    const Quantity = req.body.Quantity
+    const Type = req.body.Type
     const id = req.body.id
 
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     var ObjectId = require('mongodb').ObjectId
     const condition = {"_id" : new ObjectId(id)};
-    const newValues = {$set : {name:name,price:price,Image:Image}}
+    const newValues = {$set : {name:name,price:price,Image:Image,Quantity:Quantity,Type:Type}}
     await dbo.collection("product").updateOne(condition,newValues)
     res.redirect('/')
 })
@@ -36,6 +39,8 @@ app.post('/add',async (req,res)=>{
     const name = req.body.txtName
     const price = req.body.txtPrice
     const Image = req.body.Image
+    const Quantity = req.body.Quantity
+    const Type = req.body.Type
     //kiem tra input
     if(name.length <=5){
         res.render('add',{name_err: 'Min length is 5 characters'})
@@ -45,7 +50,9 @@ app.post('/add',async (req,res)=>{
     const newProduct = {
         'name': name,
         'price':price,
-        'Image':Image
+        'Image':Image,
+        'Quantity':Quantity,
+        'Type':Type
     }
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")

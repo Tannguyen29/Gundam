@@ -38,6 +38,8 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Image</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Type</th>
             <th scope="col">Actions</th>
             <div><a href="/add" class="btn btn-outline-success" >Add Product</a></div>
           </tr>
@@ -49,6 +51,8 @@
             <td>{{name}}</td>
             <td>{{price}}</td>
             <td><img src="{{Image}}" alt="" width="120px" height="100px"></td>
+            <td>{{Quantity}}</td>
+            <td>{{Type}}</td>
             <td >
               <div class="d-flex flex-row  mb-3">
                 <div ><a href="/delete/{{_id}}" onclick="return confirm('Are you suuuure?')" class="btn btn-outline-success" >delete</a></div>
