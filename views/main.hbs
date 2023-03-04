@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+
+
+    <title>Hello, world!</title>
+  </head>
+  <body class="bg-light">
+    
+
+    <!-- Main body -->
+    <div class="container">
+      <!-- Table -->
+      
+      <div class="table-responsive" >
+      <table class="table table-fit mt-5 table-striped" >
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Image</th>
+            <th scope="col">Actions</th>
+            <div><a href="/add" class="btn btn-outline-success" >Add Product</a></div>
+          </tr>
+        </thead>
+        <tbody>
+                {{#each product}}
+          <tr>
+            <td>{{_id}}</td>
+            <td>{{name}}</td>
+            <td>{{price}}</td>
+            <td><img src="{{Image}}" alt="" width="120px" height="100px"></td>
+            <td >
+              <div class="d-flex flex-row  mb-3">
+                <div ><a href="/delete/{{_id}}" onclick="return confirm('Are you suuuure?')" class="btn btn-outline-success" >delete</a></div>
+                <div > <a href="/edit/{{_id}}" class="btn btn-outline-success" >Edit</a> </div>
+              </div>
+            </td>
+          </tr>         
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+
