@@ -1,12 +1,23 @@
 var express = require('express');
-const { Types } = require('mongoose');
+var { Types } = require('mongoose');
 var expressHbs = require('express-handlebars');
+var path = require('path');
 
-var app = express()
+var app = express();
+app.set('view engine', 'hbs');
 
-app.engine('hbs', expressHbs.engine({defaultLayout: 'layouts', extname: '.hbs'}));
-app.set('view engine','hbs')
-app.use(express.urlencoded({extended:true}))
+app.use('/user', function(req, res, next) {
+    app.engine('hbs', expressHbs.engine({
+      layoutsDir: __dirname + '/views/user/layouts/',
+      partialsDir: __dirname + '/views/user/partials/',
+      defaultLayout: 'layout',
+      extname: '.hbs'
+    }));
+    app.set('views', __dirname + '/views/user');
+    next();
+  });
+
+app.use(express.urlencoded({extended:true}));
 
 var url = 'mongodb+srv://Gundam:Tanghj23@gundam.uglqxca.mongodb.net/test';
 var MongoClient = require('mongodb').MongoClient;
