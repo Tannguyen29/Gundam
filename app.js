@@ -4,7 +4,7 @@ var expressHbs = require('express-handlebars');
 
 var app = express()
 
-app.engine('hbs', expressHbs({defaultLayout: 'layouts', extname: '.hbs'}));
+app.engine('hbs', expressHbs.engine({defaultLayout: 'layouts', extname: '.hbs'}));
 app.set('view engine','hbs')
 app.use(express.urlencoded({extended:true}))
 
