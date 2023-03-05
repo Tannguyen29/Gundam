@@ -125,13 +125,25 @@ app.post('/register', async (req, res) => {
 
 });
 
+//Product Detail
+app.get('/detail/:id', async (req, res) => {
+    const id = req.params.id
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    const prod = await dbo.collection("product").findOne(condition)
+    let products = await dbo.collection("product").find().toArray()
+    res.render('user/detail', { prod: prod })
+})
+
 
 //ADMIN
 app.get('/admin', async (req, res) => {
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
-    res.render('admin/main', { 'product': products })
+    res.render('user/index', { 'product': products })
 })
 
 
