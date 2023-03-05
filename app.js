@@ -1,23 +1,12 @@
 var express = require('express');
-var { Types } = require('mongoose');
+const { Types } = require('mongoose');
 var expressHbs = require('express-handlebars');
-var path = require('path');
 
-var app = express();
-app.set('view engine', 'hbs');
+var app = express()
 
-app.use('/user', function(req, res, next) {
-    app.engine('hbs', expressHbs.engine({
-      layoutsDir: __dirname + '/views/user/layouts/',
-      partialsDir: __dirname + '/views/user/partials/',
-      defaultLayout: 'layout',
-      extname: '.hbs'
-    }));
-    app.set('views', __dirname + '/views/user');
-    next();
-  });
 
-app.use(express.urlencoded({extended:true}));
+app.set('view engine','hbs')
+app.use(express.urlencoded({extended:true}))
 
 var url = 'mongodb+srv://Gundam:Tanghj23@gundam.uglqxca.mongodb.net/test';
 var MongoClient = require('mongodb').MongoClient;
@@ -88,13 +77,35 @@ app.get('/delete/:id',async (req,res)=>{
     res.redirect("/")
 })
 
-app.get('/',async (req,res)=>{
+
+// LOGIN
+app.get('/login', function(req, res) {
+    res.render('login/login_form');
+});
+
+app.post('/login', (req, res) => {
+    // Lấy thông tin đăng nhập từ req.body và kiểm tra đăng nhập
+    // Nếu thông tin hợp lệ, chuyển hướng đến trang admin
+    res.redirect('/admin');
+});
+
+
+//REGISTER
+app.get('/register', function(req, res) {
+    res.render('login/register_form');
+});
+
+
+//ADMIN
+app.get('/admin',async (req,res)=>{
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
     res.render('admin/main',{'product':products})
 })
 
+
+//CONNECT 
 const PORT = process.env.PORT || 3000
 app.listen(PORT,()=>{
     console.log("Server is up!")
