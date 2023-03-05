@@ -3,6 +3,7 @@ const { Types } = require('mongoose');
 var expressHbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 var app = express()
 
@@ -94,6 +95,7 @@ app.post('/login', (req, res) => {
 
 
 //REGISTER
+
 app.get('/register', function (req, res) {
     res.render('login/register_form');
 });
@@ -104,15 +106,19 @@ app.post('/register', async (req, res) => {
     const phone = req.body.reg_phone;
     const password = req.body.reg_pass;
 
-    // Create New Document
+    //hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // Create new document
     const newUser = {
         name,
         email,
         phone,
-        password
+        password: hashedPassword
     };
 
-    // Insert the new user document into the "users" collection
+    // Insert the new user document into the users collection
+    let client = await MongoClient.connect(url)
     const db = client.db("Gundam_store");
     await db.collection("users").insertOne(newUser);
     res.redirect("/");
