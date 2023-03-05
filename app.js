@@ -9,8 +9,8 @@ var url = 'mongodb+srv://Gundam:Tanghj23@gundam.uglqxca.mongodb.net/test';
 var MongoClient = require('mongodb').MongoClient;
 
 app.post('/edit',async (req,res)=>{
-    const name = req.body.txtName
-    const price = req.body.txtPrice
+    const Name = req.body.txtName
+    const Price = req.body.txtPrice
     const Image = req.body.Image
     const Quantity = req.body.Quantity
     const Type = req.body.Type
@@ -20,7 +20,7 @@ app.post('/edit',async (req,res)=>{
     let dbo = client.db("Gundam_store")
     var ObjectId = require('mongodb').ObjectId
     const condition = {"_id" : new ObjectId(id)};
-    const newValues = {$set : {name:name,price:price,Image:Image,Quantity:Quantity,Type:Type}}
+    const newValues = {$set : {Name:Name,Price:Price,Image:Image,Quantity:Quantity,Type:Type}}
     await dbo.collection("product").updateOne(condition,newValues)
     res.redirect('/')
 })
@@ -36,20 +36,20 @@ app.get('/edit/:id', async(req,res)=>{
 })
 
 app.post('/add',async (req,res)=>{
-    const name = req.body.txtName
-    const price = req.body.txtPrice
+    const Name = req.body.txtName
+    const Price = req.body.txtPrice
     const Image = req.body.Image
     const Quantity = req.body.Quantity
     const Type = req.body.Type
     //kiem tra input
-    if(name.length <=5){
-        res.render('add',{name_err: 'Min length is 5 characters'})
+    if(Name.length <=5){
+        res.render('add',{Name_err: 'Min length is 5 characters'})
         return
     }
     //
     const newProduct = {
-        'name': name,
-        'price':price,
+        'Name': Name,
+        'Price':Price,
         'Image':Image,
         'Quantity':Quantity,
         'Type':Type
