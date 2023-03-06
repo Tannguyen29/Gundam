@@ -209,7 +209,7 @@ app.get('/delete/:id', async (req, res) => {
 })
 
 //USER
-app.get('/', async (req, res) => {
+app.get('/user', async (req, res) => {
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
