@@ -15,7 +15,7 @@ var url = 'mongodb+srv://Gundam:Tanghj23@gundam.uglqxca.mongodb.net/test';
 var MongoClient = require('mongodb').MongoClient;
 
 // LOGIN
-app.get('/', function (req, res) {
+app.get('/adminlogin', function (req, res) {
     res.render('login/login_form');
 });
 
@@ -209,7 +209,7 @@ app.get('/delete/:id', async (req, res) => {
 })
 
 //USER
-app.get('/user', async (req, res) => {
+app.get('/', async (req, res) => {
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
