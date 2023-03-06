@@ -150,6 +150,56 @@ app.get('/detail/:id', async (req, res) => {
     res.render('user/detail', { prod: prod })
 })
 
+//add to cart
+app.post('/detail', async (req, res) => {
+    const { id, quantity} = req.body;
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    const prod = await dbo.collection("product").findOne(condition)
+
+    if(prod.Quantity < quantity){
+        res.render('user/detail', { prod: prod, err: "Quantity is not enough" })
+        return
+    }
+
+    prod.totalPrice = prod.Price * quantity
+    prod.buyQuantity = quantity;
+    res.render('user/cart', { prod: prod })
+})
+
+app.get('/checkout', async (req, res) => {
+    const { id, quantity} = req.query;
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    const prod = await dbo.collection("product").findOne(condition)
+
+    if(prod.Quantity < quantity){
+        res.render('user/detail', { prod: prod, err: "Quantity is not enough" })
+        return
+    }
+
+    prod.totalPrice = prod.Price * quantity
+    prod.buyQuantity = quantity;
+    res.render('user/cart', { prod: prod })
+})
+
+app.post('/checkout', async (req, res) => {
+    const { id, quantity} = req.body;
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    const prod = await dbo.collection("product").findOne(condition)
+    const newQuantity = Number(prod.Quantity)- quantity
+    const newValues = { $set: { Name: prod.Name, Price: prod.Price, Image: prod.Image, Quantity: newQuantity, Type: prod.Type } }
+    await dbo.collection("product").updateOne(condition, newValues)
+
+    res.render('user/checkout', { prod: prod })
+})
 
 
 //ADMIN
