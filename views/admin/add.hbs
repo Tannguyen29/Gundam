@@ -4,23 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <title>Add product</title>
 </head>
 <body>
     <form action="/add" method="post">
-        Name <input type="text" name="txtName">
+    <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 mt-5">
+        <h1 class="text-center mb-4">Add Product</h1>
+        <div class="form-group">
+            Name <input type="text"class="form-control" name="txtName">
         <span style="color:red"> {{Name_err}}</span>
-       
-        <br>
-        Price <input type="text" name="txtPrice">
-        <br>
-        Image <input type="text" name="Image">
-        <br>
-        Quantity <input type="Integer" name="Quantity">
-        <br>
-        Type <input type="text" name="Type">
-        <br>
-        <input type="submit" value="Add">
+        </div>
+
+        <div class="form-group">
+            Price <input type="text" class="form-control"  name="txtPrice">
+        </div>
+
+        <div class="form-group">
+            Image <input type="text" class="form-control" name="Image">
+        </div>
+        
+        <div class="form-group">
+            Quantity <input type="Integer" class="form-control" name="Quantity">
+        </div>
+
+        <div class="form-group">
+            Type <input type="text" class="form-control" name="Type">
+        </div>
+
+        <input type="submit"  class="form-control" value="Add">
     </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

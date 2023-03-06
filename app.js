@@ -14,74 +14,6 @@ app.use(express.urlencoded({ extended: true }))
 var url = 'mongodb+srv://Gundam:Tanghj23@gundam.uglqxca.mongodb.net/test';
 var MongoClient = require('mongodb').MongoClient;
 
-//PRODUCT IN ADMIN
-app.post('/edit', async (req, res) => {
-    const Name = req.body.txtName
-    const Price = req.body.txtPrice
-    const Image = req.body.Image
-    const Quantity = req.body.Quantity
-    const Type = req.body.Type
-    const id = req.body.id
-
-    let client = await MongoClient.connect(url)
-    let dbo = client.db("Gundam_store")
-    var ObjectId = require('mongodb').ObjectId
-    const condition = { "_id": new ObjectId(id) };
-    const newValues = { $set: { Name: Name, Price: Price, Image: Image, Quantity: Quantity, Type: Type } }
-    await dbo.collection("product").updateOne(condition, newValues)
-    res.redirect('/admin')
-})
-
-app.get('/edit/:id', async (req, res) => {
-    const id = req.params.id
-    let client = await MongoClient.connect(url)
-    let dbo = client.db("Gundam_store")
-    var ObjectId = require('mongodb').ObjectId
-    let condition = { "_id": new ObjectId(id) };
-    const prod = await dbo.collection("product").findOne(condition)
-    res.render('admin/edit', { prod: prod })
-})
-
-app.post('/add', async (req, res) => {
-    const Name = req.body.txtName
-    const Price = req.body.txtPrice
-    const Image = req.body.Image
-    const Quantity = req.body.Quantity
-    const Type = req.body.Type
-    //kiem tra input
-    if (Name.length <= 5) {
-        res.render('admin/add', { Name_err: 'Min length is 5 characters' })
-        return
-    }
-    //
-    const newProduct = {
-        'Name': Name,
-        'Price': Price,
-        'Image': Image,
-        'Quantity': Quantity,
-        'Type': Type
-    }
-    let client = await MongoClient.connect(url)
-    let dbo = client.db("Gundam_store")
-    await dbo.collection("product").insertOne(newProduct)
-    res.redirect("/admin")
-
-})
-
-app.get('/add', (req, res) => {
-    res.render('admin/add')
-})
-app.get('/delete/:id', async (req, res) => {
-    const id = req.params.id
-    let client = await MongoClient.connect(url)
-    let dbo = client.db("Gundam_store")
-    var ObjectId = require('mongodb').ObjectId
-    let condition = { "_id": new ObjectId(id) };
-    await dbo.collection("product").deleteOne(condition)
-    res.redirect("/admin")
-})
-
-
 // LOGIN
 app.get('/', function (req, res) {
     res.render('login/login_form');
@@ -160,12 +92,95 @@ app.get('/admin', async (req, res) => {
     res.render('admin/main', { 'product': products })
 })
 
+app.post('/edit', async (req, res) => {
+    const Name = req.body.txtName
+    const Price = req.body.txtPrice
+    const Image = req.body.Image
+    const Quantity = req.body.Quantity
+    const Type = req.body.Type
+    const id = req.body.id
+
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    const condition = { "_id": new ObjectId(id) };
+    const newValues = { $set: { Name: Name, Price: Price, Image: Image, Quantity: Quantity, Type: Type } }
+    await dbo.collection("product").updateOne(condition, newValues)
+    res.redirect('/admin')
+})
+
+app.get('/edit/:id', async (req, res) => {
+    const id = req.params.id
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    const prod = await dbo.collection("product").findOne(condition)
+    res.render('admin/edit', { prod: prod })
+})
+
+app.post('/add', async (req, res) => {
+    const Name = req.body.txtName
+    const Price = req.body.txtPrice
+    const Image = req.body.Image
+    const Quantity = req.body.Quantity
+    const Type = req.body.Type
+    //kiem tra input
+    if (Name.length <= 5) {
+        res.render('admin/add', { Name_err: 'Min length is 5 characters' })
+        return
+    }
+    //
+    const newProduct = {
+        'Name': Name,
+        'Price': Price,
+        'Image': Image,
+        'Quantity': Quantity,
+        'Type': Type
+    }
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    await dbo.collection("product").insertOne(newProduct)
+    res.redirect("/admin")
+
+})
+
+app.get('/add', (req, res) => {
+    res.render('admin/add')
+})
+app.get('/delete/:id', async (req, res) => {
+    const id = req.params.id
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    await dbo.collection("product").deleteOne(condition)
+    res.redirect("/admin")
+})
+
 //USER
 app.get('/user', async (req, res) => {
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
     res.render('user/index', { 'product': products })
+})
+//USER MANAGER
+app.get('/usermanager', async (req, res) => {
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    let user = await dbo.collection("users").find().toArray()
+    res.render('admin/Admin_User', { 'users': user })
+})
+
+app.get('/usermanager/delete/:id', async (req, res) => {
+    const id = req.params.id
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    var ObjectId = require('mongodb').ObjectId
+    let condition = { "_id": new ObjectId(id) };
+    await dbo.collection("users").deleteOne(condition)
+    res.redirect("/usermanager")
 })
 
 //CONNECT 

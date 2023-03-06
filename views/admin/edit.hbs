@@ -4,19 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <title>Edit product</title>
 </head>
 <body>
-    <h2>Edit product</h2>
     <form action="/edit" method="post">
+    <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 mt-5">
+        <h1 class="text-center mb-4">Edit Product</h1>
+        <div class="form-group">
         <input type="hidden" name="id" value="{{prod._id}}">
-        Name <input type="text" name="txtName" value="{{prod.name}}">
-        <br>
-        Price <input type="text" name="txtPrice" value="{{prod.price}}">
-        <br>
-        Picture URL <input type="text" name="picURL" value="{{prod.Image}}" size="25">
-        <br>
+        <div class="form-group">
+            Name <input type="text" class="form-control" name="txtName" value="{{prod.name}}">
+        </div>
+
+        <div class="form-group">
+        Price <input type="text" class="form-control" name="txtPrice" value="{{prod.price}}">
+        </div>
+
+        <div class="form-group">
+        ImageL <input type="text" class="form-control" name="Image" value="{{prod.Image}}" size="25">
+        </div>
+
+        <div class="form-group">
+            Quantity <input type="text" class="form-control" name="Quantity" value="{{prod.Quantity}}">
+        </div>
+        <div class="form-group">
+            Type <input type="text" class="form-control" name="Type" value="{{prod.Type}}">
+        </div>
         <input type="submit" value="Update">
     </form>
+          </div>
+    </div>
+  </div>
 </body>
 </html>

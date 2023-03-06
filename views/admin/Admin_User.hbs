@@ -29,10 +29,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/add">Add Product</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/usermanager">User manager</a>
+          <a class="nav-link" href="/admin">Home</a>
         </li>
       </ul>
     </div>
@@ -51,27 +48,24 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Type</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">phone</th>
+            <th scope="col">password</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-                {{#each product}}
+                {{#each users}}
           <tr>
             <td>{{_id}}</td>
-            <td>{{Name}}</td>
-            <td>{{Price}}</td>
-            <td><img src="{{Image}}" alt="" width="120px" height="100px"></td>
-            <td>{{Quantity}}</td>
-            <td>{{Type}}</td>
+            <td>{{name}}</td>
+            <td>{{email}}</td>
+            <td>{{phone}}</td>
+            <td>{{password}}</td>
             <td >
               <div class="d-flex flex-row  mb-3">
-                <div ><a href="/delete/{{_id}}" onclick="return confirm('Are you suuuure?')" class="btn btn-outline-success" >delete</a></div>
-                <div > <a href="/edit/{{_id}}" class="btn btn-outline-success" >Edit</a> </div>
+                <div ><a href="/usermanager/delete/{{_id}}" onclick="return confirm('Are you suuuure?')" class="btn btn-outline-success" >delete</a></div>
               </div>
             </td>
           </tr>         
