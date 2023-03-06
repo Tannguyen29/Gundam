@@ -87,42 +87,55 @@ app.get('/', function (req, res) {
     res.render('login/login_form');
 });
 
-app.post('/login', (req, res) => {
-    // Lấy thông tin đăng nhập từ req.body và kiểm tra đăng nhập
-    // Nếu thông tin hợp lệ, chuyển hướng đến trang admin
-    res.redirect('/admin');
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    let client = await MongoClient.connect(url)
+    const db = client.db("Gundam_store");
+
+    const user = await db.collection('users').findOne({ email });
+
+    if (!user) {
+
+        return res.status(401).send('Invalid email');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+        return res.status(401).send('Invalid password');
+    }
+    res.redirect("/admin");
+
 });
 
 
 //REGISTER
-
 app.get('/register', function (req, res) {
     res.render('login/register_form');
 });
 
 app.post('/register', async (req, res) => {
-    const name = req.body.reg_name;
-    const email = req.body.reg_email;
-    const phone = req.body.reg_phone;
-    const password = req.body.reg_pass;
+    
+    const { name, email, phone, password, password2 } = req.body;
+    
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    //hash password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    // Create new document
-    const newUser = {
-        name,
-        email,
-        phone,
-        password: hashedPassword
-    };
+        // Create new document
+        const newUser = {
+            name,
+            email,
+            phone,
+            password: hashedPassword
+        };
 
-    // Insert the new user document into the users collection
-    let client = await MongoClient.connect(url)
-    const db = client.db("Gundam_store");
-    await db.collection("users").insertOne(newUser);
-    res.redirect("/");
-
+        // Insert the new user document into the users collection
+        let client = await MongoClient.connect(url)
+        const db = client.db("Gundam_store");
+        await db.collection("users").insertOne(newUser);
+        res.redirect("/");
+    
 });
 
 //Product Detail
@@ -136,6 +149,7 @@ app.get('/detail/:id', async (req, res) => {
     let products = await dbo.collection("product").find().toArray()
     res.render('user/detail', { prod: prod })
 })
+
 
 
 //ADMIN

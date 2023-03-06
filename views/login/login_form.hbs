@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+
 <body>
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -14,6 +16,9 @@
             Login
           </div>
           <div class="card-body">
+            {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+            {{/if}}
             <form method="POST" action="/login">
               <div class="form-group">
                 <label for="email">Email:</label>
@@ -23,6 +28,9 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" class="form-control" required>
               </div>
+              {{#if showPopup}}
+              <script>alert("Mật khẩu không đúng.")</script>
+              {{/if}}
               <div class="mt-3">
                 <p>Don't have an account? <a href="/register">Register</a></p>
               </div>
@@ -34,4 +42,5 @@
     </div>
   </div>
 </body>
+
 </html>
