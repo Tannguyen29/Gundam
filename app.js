@@ -81,21 +81,36 @@ app.get('/delete/:id', async (req, res) => {
     res.redirect("/admin")
 })
 
-
+  
 // LOGIN
 app.get('/', function (req, res) {
     res.render('login/login_form');
 });
 
-app.post('/login', (req, res) => {
-    // Lấy thông tin đăng nhập từ req.body và kiểm tra đăng nhập
-    // Nếu thông tin hợp lệ, chuyển hướng đến trang admin
-    res.redirect('/admin');
-});
-
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    let client = await MongoClient.connect(url)
+    const db = client.db("Gundam_store");
+  
+    const user = await db.collection('users').findOne({ email });
+  
+    if (!user) {
+        
+      return res.status(401).send('Invalid email');
+    }
+  
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+    if (!isPasswordValid) {
+      return res.status(401).send('Invalid password');
+    }
+    res.redirect("/admin");
+    
+  });
+  
 
 //REGISTER
-
 app.get('/register', function (req, res) {
     res.render('login/register_form');
 });
