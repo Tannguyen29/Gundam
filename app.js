@@ -143,9 +143,16 @@ app.get('/admin', async (req, res) => {
     let client = await MongoClient.connect(url)
     let dbo = client.db("Gundam_store")
     let products = await dbo.collection("product").find().toArray()
-    res.render('user/index', { 'product': products })
+    res.render('admin/main', { 'product': products })
 })
 
+//USER
+app.get('/user', async (req, res) => {
+    let client = await MongoClient.connect(url)
+    let dbo = client.db("Gundam_store")
+    let products = await dbo.collection("product").find().toArray()
+    res.render('user/index', { 'product': products })
+})
 
 //CONNECT 
 const PORT = process.env.PORT || 3000
