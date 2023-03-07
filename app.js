@@ -37,7 +37,7 @@ app.post('/login', async (req, res) => {
     if (!isPasswordValid) {
         return res.status(401).send('Invalid password');
     }
-    res.redirect("/admin");
+    res.redirect("/user");
 
 });
 
